@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ASTYLE_FILE_PATTERN='\(\.h\|\.cpp\|\.ino\)$'
+git ls-files |grep "$ASTYLE_FILE_PATTERN" | xargs -n 1 astyle -q --style=google --unpad-paren --pad-header --pad-oper --indent-classes --indent=spaces=2

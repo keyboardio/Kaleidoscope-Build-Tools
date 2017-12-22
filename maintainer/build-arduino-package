@@ -1,0 +1,108 @@
+#!/usr/bin/env perl
+
+###################
+################### This tool is horribly written.
+################### It is a bloody hack.
+################### It should be refactored. But it seems to kind of work
+###################
+###################
+
+use warnings;
+use strict;
+use File::Temp qw/tempdir/;
+use Cwd qw/abs_path cwd/;
+use JSON;
+
+my $sha256 = 0;
+my $size   = 0;
+
+my $tag = shift || 'master';
+
+my $dir           = tempdir( CLEANUP => 0 );
+my $checkout_dir  = "Keyboardio-Model01-Hardware-$tag";
+my $filename      = $checkout_dir . ".tar.bz2";
+my $checkout_path = "$dir/$checkout_dir";
+chdir($dir);
+
+`git clone --depth=1 https://github.com/keyboardio/Arduino-Boards $checkout_path`;
+chdir($checkout_path);
+`git checkout $tag`;
+`make update-submodules`;
+`find $checkout_path -name .git |xargs rm -rf`;
+`rm -rf $checkout_path/toolchain`;
+`rm -rf $checkout_path/etc`;
+`rm -rf $checkout_path/doc`;
+chdir($dir);
+`tar cjvf $filename $checkout_dir`;
+$sha256 = `sha256sum $filename | cut -d' ' -f 1 `;
+chomp($sha256);
+$size = -s $filename;
+
+`git clone https://github.com/keyboardio/boardsmanager`;
+`mkdir -p boardsmanager/builds`;
+`cp $filename boardsmanager/builds/`;
+
+my $platform_template = {
+    'archiveFileName'   => 'Arduino-Boards-v1.14.zip',
+    'toolsDependencies' => [
+        {
+            'version'  => '4.8.1-arduino5',
+            'name'     => 'avr-gcc',
+            'packager' => 'arduino'
+        },
+        {
+            'version'  => '6.0.1-arduino5',
+            'name'     => 'avrdude',
+            'packager' => 'arduino'
+        }
+    ],
+    'url'  => 'https://github.com/keyboardio/Arduino-Boards/archive/v1.14.zip',
+    'name' => 'keyboardio',
+    'version' => '1.1.4',
+    'checksum' =>
+'SHA-256:fd0017ea2950f6fb3afb46a503f0193c75111d68dfc95fa2775fbd63f0cf4528',
+    'size'   => '1008405',
+    'boards' => [
+        {
+            'name' => 'Keyboardio Model 01'
+        }
+    ],
+    'architecture' => 'avr',
+    'category'     => 'Contributed',
+    'help'         => {
+        'online' => 'https://community.keyboard.io'
+    }
+};
+
+my $version = $tag;
+if ($version =~ /^v(\d.*)$/) {
+	$version = $1
+};
+
+$platform_template->{archiveFileName} = $filename;
+$platform_template->{version} = $version;
+$platform_template->{url} =
+  'https://raw.githubusercontent.com/keyboardio/boardsmanager/master/builds/'
+  . $filename;
+$platform_template->{checksum} = 'SHA-256:' . $sha256;
+$platform_template->{size}     = $size;
+
+my $json = JSON->new->allow_nonref;
+
+local $/;
+open( my $fh, '<', 'boardsmanager/package_keyboardio_index.json' );
+my $json_text = <$fh>;
+my $data      = from_json($json_text);
+
+push @{ $data->{'packages'}->[0]->{'platforms'} }, $platform_template;
+
+my $json_out = $json->canonical->pretty->encode($data);
+
+open( my $out_fh, '>', 'boardsmanager/package_keyboardio_index.json' );
+print $out_fh $json_out;
+close($out_fh);
+
+#	rm -rf /tmp/boardsmanager
+
+print
+  "Now, you need to cd to $dir/boardsmanager check the content and commit it\n";
