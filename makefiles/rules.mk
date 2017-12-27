@@ -19,7 +19,7 @@ all: build-all
 	@: ## Do not remove this line, otherwise `make all` will trigger the `%` rule too.
 
 astyle:	
-	$(PLUGIN_TEST_SUPPORT_DIR)/quality/run-astyle
+	PATH="$(PLUGIN_TEST_BIN_DIR):$(PATH)" $(PLUGIN_TEST_SUPPORT_DIR)/quality/run-astyle
 
 travis-test: travis-smoke-examples travis-check-astyle
 
@@ -33,7 +33,7 @@ check-docs:
 	python $(PLUGIN_TEST_SUPPORT_DIR)/quality/doxy-coverage.py /tmp/undocced/xml
 
 check-astyle: astyle
-	$(PLUGIN_TEST_SUPPORT_DIR)/quality/astyle-check
+	PATH="$(PLUGIN_TEST_BIN_DIR):$(PATH)" $(PLUGIN_TEST_SUPPORT_DIR)/quality/astyle-check
 	
 cpplint-noisy:
 	-$(PLUGIN_TEST_SUPPORT_DIR)/quality/cpplint.py  --filter=-legal/copyright,-build/include,-readability/namespace,,-whitespace/line_length  --recursive --extensions=cpp,h,ino --exclude=$(BOARD_HARDWARE_PATH) --exclude=$(TRAVIS_ARDUINO) src examples
@@ -66,9 +66,7 @@ travis-smoke-examples: travis-install-arduino
 	rm -rf ../current-libraries
 
 
-travis-check-astyle:
-	PATH="$(PLUGIN_TEST_BIN_DIR):$(PATH)" $(PLUGIN_TEST_SUPPORT_DIR)/quality/run-astyle
-	$(PLUGIN_TEST_SUPPORT_DIR)/quality/astyle-check
+travis-check-astyle: check-astyle
 
 %:	
 	BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder $@
