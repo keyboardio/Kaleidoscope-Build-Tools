@@ -24,7 +24,7 @@ my $filename      = $checkout_dir . ".tar.bz2";
 my $checkout_path = "$dir/$checkout_dir";
 chdir($dir);
 
-`git clone --depth=1 https://github.com/keyboardio/Arduino-Boards $checkout_path`;
+`git clone --depth=1 https://github.com/keyboardio/Kaleidoscope-Bundle-Keyboardio $checkout_path`;
 chdir($checkout_path);
 `git checkout $tag`;
 `make update-submodules`;
