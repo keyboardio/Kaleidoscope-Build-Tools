@@ -32,9 +32,8 @@ chdir($checkout_path);
 `rm -rf $checkout_path/toolchain`;
 `rm -rf $checkout_path/etc`;
 `rm -rf $checkout_path/doc`;
-`rm -rf $checkout_path/build-tools`;
 chdir($dir);
-`find -type l -exec bash -c 'ln -f "$(readlink -m "$0")" "$0"' {} \;`;
+`rm -rf $checkout_dir/avr/build-tools`;
 `mv $checkout_dir/avr $checkout_dir/$checkout_dir`; # A hack to get consistent naming with the old setup
 `tar cjvf $filename -C $checkout_dir/ $checkout_dir `;
 $sha256 = `sha256sum $filename | cut -d' ' -f 1 `;
