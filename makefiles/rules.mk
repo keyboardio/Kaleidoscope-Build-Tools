@@ -11,14 +11,14 @@ TRAVIS_ARDUINO_DOWNLOAD_URL = http://downloads.arduino.cc/$(TRAVIS_ARDUINO_FILE)
 
 # TODO check the shasum of the travis arduino file
 
-.PHONY: travis-install-arduino astyle travis-test travis-check-astyle travis-smoke-examples test cpplint cpplint-noisy
+.PHONY: travis-install-arduino astyle travis-test travis-check-astyle travis-smoke-examples test cpplint cpplint-noisy shellcheck
 
 .DEFAULT_GOAL := all
 
 all: build-all
 	@: ## Do not remove this line, otherwise `make all` will trigger the `%` rule too.
 
-astyle:	
+astyle:
 	PATH="$(PLUGIN_TEST_BIN_DIR):$(PATH)" $(PLUGIN_TEST_SUPPORT_DIR)/quality/run-astyle
 
 travis-test: travis-smoke-examples travis-check-astyle
@@ -26,7 +26,7 @@ travis-test: travis-smoke-examples travis-check-astyle
 test: smoke-examples check-astyle cpplint-noisy check-docs
 
 smoke-examples:
-	$(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder build-all 
+	$(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder build-all
 
 check-docs:
 	doxygen $(PLUGIN_TEST_SUPPORT_DIR)/quality/etc/check-docs.conf 2> /dev/null >/dev/null
@@ -34,13 +34,17 @@ check-docs:
 
 check-astyle: astyle
 	PATH="$(PLUGIN_TEST_BIN_DIR):$(PATH)" $(PLUGIN_TEST_SUPPORT_DIR)/quality/astyle-check
-	
+
 cpplint-noisy:
 	-$(PLUGIN_TEST_SUPPORT_DIR)/quality/cpplint.py  --filter=-legal/copyright,-build/include,-readability/namespace,-whitespace/line_length,-runtime/references  --recursive --extensions=cpp,h,ino --exclude=$(BOARD_HARDWARE_PATH) --exclude=$(TRAVIS_ARDUINO) src examples
 
 
 cpplint:
 	$(PLUGIN_TEST_SUPPORT_DIR)/quality/cpplint.py  --quiet --filter=-whitespace,-legal/copyright,-build/include,-readability/namespace,-runtime/references  --recursive --extensions=cpp,h,ino src examples
+
+shellcheck: SHELL_FILES=`egrep -n -r "(env (ba)?sh)|(/bin/(ba)?sh)" . | grep ":1:" | cut -d: -f1`
+shellcheck:
+	shellcheck ${SHELL_FILES}
 
 ## NOTE: HERE BE DRAGONS, DO NOT CLEAN THIS UP!
 # When building outside of Arduino-Boards, we want to use the current library,
@@ -68,7 +72,7 @@ travis-smoke-examples: travis-install-arduino
 
 travis-check-astyle: check-astyle
 
-%:	
+%:
 	BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder $@
 
 
