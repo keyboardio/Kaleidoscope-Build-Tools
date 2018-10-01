@@ -21,7 +21,7 @@ all: build-all
 astyle:
 	PATH="$(PLUGIN_TEST_BIN_DIR):$(PATH)" $(PLUGIN_TEST_SUPPORT_DIR)/quality/run-astyle
 
-travis-test: travis-smoke-examples travis-check-astyle
+travis-test: travis-smoke-examples travis-check-astyle shellcheck
 
 test: smoke-examples check-astyle cpplint-noisy check-docs
 
