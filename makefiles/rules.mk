@@ -42,7 +42,7 @@ cpplint-noisy:
 cpplint:
 	$(PLUGIN_TEST_SUPPORT_DIR)/quality/cpplint.py  --quiet --filter=-whitespace,-legal/copyright,-build/include,-readability/namespace,-runtime/references  --recursive --extensions=cpp,h,ino src examples
 
-shellcheck: SHELL_FILES=`egrep -n -r "(env (ba)?sh)|(/bin/(ba)?sh)" . | grep ":1:" | cut -d: -f1`
+shellcheck: SHELL_FILES=`egrep -n -r "(env (ba)?sh)|(/bin/(ba)?sh)" bin | grep ":1:" | cut -d: -f1`
 shellcheck:
 	shellcheck ${SHELL_FILES}
 
