@@ -9,6 +9,9 @@ TRAVIS_ARDUINO_FILE = $(TRAVIS_ARDUINO)-linux64.tar.xz
 TRAVIS_ARDUINO_PATH ?= $(shell pwd)/$(TRAVIS_ARDUINO)
 TRAVIS_ARDUINO_DOWNLOAD_URL = http://downloads.arduino.cc/$(TRAVIS_ARDUINO_FILE)
 
+SHELL_FILES = $(shell if [ -d bin ]; then egrep -n -r -l "(env (ba)?sh)|(/bin/(ba)?sh)" bin; fi)
+
+
 # TODO check the shasum of the travis arduino file
 
 .PHONY: travis-install-arduino astyle travis-test travis-check-astyle travis-smoke-examples test cpplint cpplint-noisy shellcheck
@@ -42,9 +45,10 @@ cpplint-noisy:
 cpplint:
 	$(PLUGIN_TEST_SUPPORT_DIR)/quality/cpplint.py  --quiet --filter=-whitespace,-legal/copyright,-build/include,-readability/namespace,-runtime/references  --recursive --extensions=cpp,h,ino src examples
 
-shellcheck: SHELL_FILES=`egrep -n -r "(env (ba)?sh)|(/bin/(ba)?sh)" bin | grep ":1:" | cut -d: -f1`
 shellcheck:
-	shellcheck ${SHELL_FILES}
+	@if [ -d "bin" ]; then \
+		shellcheck ${SHELL_FILES}; \
+	fi
 
 ## NOTE: HERE BE DRAGONS, DO NOT CLEAN THIS UP!
 # When building outside of Arduino-Boards, we want to use the current library,
