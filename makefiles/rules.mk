@@ -29,7 +29,7 @@ travis-test: travis-smoke-examples travis-check-astyle shellcheck
 test: smoke-examples check-astyle cpplint check-docs
 
 smoke-examples:
-	$(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder build-all
+	$(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder compile-all
 
 check-docs:
 	doxygen $(PLUGIN_TEST_SUPPORT_DIR)/quality/etc/check-docs.conf 2> /dev/null >/dev/null
