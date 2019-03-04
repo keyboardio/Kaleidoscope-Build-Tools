@@ -26,7 +26,7 @@ astyle:
 
 travis-test: travis-smoke-examples travis-check-astyle shellcheck
 
-test: smoke-examples check-astyle cpplint-noisy check-docs
+test: smoke-examples check-astyle cpplint check-docs
 
 smoke-examples:
 	$(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder build-all
