@@ -20,7 +20,7 @@ for my $dir (@files) {
     print "$dir($target)...";
     my $has_target = `make -pRrq 2>/dev/null |grep ^travis-test 2>/dev/null`;
     if ($has_target) {
-        system("make -s $target >.build-log 2>&1");
+        system("make -s $target 2>&1 | tee .build-log");
         my $result = $? >> 8;
 
         if ($result == 0) {
