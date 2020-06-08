@@ -38,6 +38,8 @@ chdir($dir);
 `tar cjvf $filename -C $checkout_dir/ $checkout_dir `;
 $sha256 = `sha256sum $filename | cut -d' ' -f 1 `;
 chomp($sha256);
+
+die "There was a problem generating the sha256" unless ($sha256);
 $size = -s $filename;
 
 `git clone https://github.com/keyboardio/boardsmanager`;
