@@ -65,9 +65,8 @@ my $platform_template = {
 'SHA-256:fd0017ea2950f6fb3afb46a503f0193c75111d68dfc95fa2775fbd63f0cf4528',
     'size'   => '1008405',
     'boards' => [
-        {
-            'name' => 'Keyboardio Model 01'
-        }
+        { 'name' => 'Keyboardio Model 01' },
+	{ 'name' => 'Keyboardio Atreus' }
     ],
     'architecture' => 'avr',
     'category'     => 'Contributed',
