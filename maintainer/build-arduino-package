@@ -48,14 +48,14 @@ my $platform_template = {
     'archiveFileName'   => 'Arduino-Boards-v1.14.zip',
     'toolsDependencies' => [
             {
-              "packager": "arduino",
-              "name": "avr-gcc",
-              "version": "7.3.0-atmel3.6.1-arduino5"
+              "packager" => "arduino",
+              "name" => "avr-gcc",
+              "version" => "7.3.0-atmel3.6.1-arduino5"
             },
             {
-              "packager": "arduino",
-              "name": "avrdude",
-              "version": "6.3.0-arduino17"
+              "packager" => "arduino",
+              "name" => "avrdude",
+              "version" => "6.3.0-arduino17"
             }
     ],
     'url'  => 'https://github.com/keyboardio/Arduino-Boards/archive/v1.14.zip',
