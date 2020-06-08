@@ -19,7 +19,7 @@ my $size   = 0;
 my $tag = shift || 'master';
 
 my $dir           = tempdir( CLEANUP => 0 );
-my $checkout_dir  = "Keyboardio-Model01-Hardware-$tag";
+my $checkout_dir  = "Kaleidoscope-$tag";
 my $filename      = $checkout_dir . ".tar.bz2";
 my $checkout_path = "$dir/$checkout_dir";
 chdir($dir);
