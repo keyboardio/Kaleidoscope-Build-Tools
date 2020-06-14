@@ -24,7 +24,7 @@ all: build-all
 astyle:
 	PATH="$(PLUGIN_TEST_BIN_DIR):$(PATH)" $(PLUGIN_TEST_SUPPORT_DIR)/quality/run-astyle
 
-travis-test: find-duplicates travis-smoke-examples travis-check-astyle shellcheck
+travis-test: find-filename-conflicts travis-smoke-examples travis-check-astyle shellcheck
 
 test: smoke-examples check-astyle cpplint check-docs
 
@@ -50,9 +50,9 @@ shellcheck:
 		shellcheck ${SHELL_FILES}; \
 	fi
 
-find-duplicates:
+find-filename-conflicts:
 	@if [ -d "bin" ]; then \
-		bin/find-duplicate-cpp-files; \
+		bin/find-filename-conflicts; \
 	fi
 
 ## NOTE: HERE BE DRAGONS, DO NOT CLEAN THIS UP!
