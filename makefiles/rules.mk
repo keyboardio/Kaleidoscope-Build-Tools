@@ -75,7 +75,7 @@ find-filename-conflicts:
 travis-smoke-examples: travis-install-arduino
 	install -d ../current-libraries
 	ln -s $$(pwd) ../current-libraries/
-	ARDUINO_PATH="$(TRAVIS_ARDUINO_PATH)" BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" EXTRA_BUILDER_ARGS="-libraries $$(pwd)/../current-libraries" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder build-all
+	ARDUINO_PATH="$(TRAVIS_ARDUINO_PATH)" BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" EXTRA_BUILDER_ARGS="-libraries $$(pwd)/../current-libraries" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder compile-all
 	rm -rf ../current-libraries
 
 
