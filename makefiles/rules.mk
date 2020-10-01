@@ -4,8 +4,10 @@ PLUGIN_TEST_BIN_DIR ?= $(PLUGIN_TEST_SUPPORT_DIR)/../toolchain/$(shell gcc --pri
 
 KALEIDOSCOPE_BUILDER_DIR ?= $(BOARD_HARDWARE_PATH)/keyboardio/avr/libraries/Kaleidoscope/bin/
 
-TRAVIS_ARDUINO=arduino-1.8.13
-TRAVIS_ARDUINO_FILE = $(TRAVIS_ARDUINO)-linux64.tar.xz
+
+TRAVIS_DOWNLOAD_DIR ?= $(shell pwd)/.download-cache
+TRAVIS_ARDUINO ?= arduino-1.8.13
+TRAVIS_ARDUINO_FILE ?= $(TRAVIS_ARDUINO)-linux64.tar.xz
 TRAVIS_ARDUINO_PATH ?= $(shell pwd)/$(TRAVIS_ARDUINO)
 TRAVIS_ARDUINO_DOWNLOAD_URL = http://downloads.arduino.cc/$(TRAVIS_ARDUINO_FILE)
 
@@ -86,8 +88,12 @@ travis-check-astyle: check-astyle
 
 
 travis-install-arduino:
+	@if [ ! -f "$(TRAVIS_DOWNLOAD_DIR)/$(TRAVIS_ARDUINO_FILE)" ]; then \
+		echo "Downloading Arduino..."; \
+		mkdir -p "$(TRAVIS_DOWNLOAD_DIR)"; \
+		wget -O "$(TRAVIS_DOWNLOAD_DIR)/$(TRAVIS_ARDUINO_FILE)" -c $(TRAVIS_ARDUINO_DOWNLOAD_URL); \
+	fi
 	@if [ ! -d "$(TRAVIS_ARDUINO_PATH)" ]; then \
 		echo "Installing Arduino..."; \
-		wget -O "$(TRAVIS_ARDUINO_FILE)" -c $(TRAVIS_ARDUINO_DOWNLOAD_URL); \
-		tar xf $(TRAVIS_ARDUINO_FILE); \
+		tar xf "$(TRAVIS_DOWNLOAD_DIR)/$(TRAVIS_ARDUINO_FILE)"; \
 	fi
