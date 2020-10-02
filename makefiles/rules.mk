@@ -30,6 +30,11 @@ travis-test: find-filename-conflicts travis-smoke-examples travis-check-astyle s
 
 test: smoke-examples check-astyle cpplint check-docs
 
+
+simulator-tests:
+	$(MAKE) -C $(BOARD_HARDWARE_PATH)/keyboardio prepare-virtual
+	$(MAKE) -C tests all
+
 smoke-examples:
 	$(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder compile-all
 
