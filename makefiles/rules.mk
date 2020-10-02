@@ -85,6 +85,8 @@ travis-smoke-examples: travis-install-arduino
 	ARDUINO_PATH="$(TRAVIS_ARDUINO_PATH)" BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" EXTRA_BUILDER_ARGS="-libraries $$(pwd)/../current-libraries" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder compile-all
 	rm -rf ../current-libraries
 
+travis-simulator-tests: travis-install-arduino simulator-tests
+	@: ## Do not remove this line, otherwise this will trigger the `%` rule too.
 
 travis-check-astyle: check-astyle
 
