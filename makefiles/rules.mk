@@ -90,6 +90,19 @@ travis-simulator-tests: travis-install-arduino simulator-tests
 
 travis-check-astyle: check-astyle
 
+
+SMOKE_SKETCHES=$(shell find ./examples -type f -name \*ino | xargs -n 1 dirname)
+
+smoke-sketches: $(SMOKE_SKETCHES)
+	@echo "Smoke-tested all the sketches"
+
+.PHONY: force
+
+
+$(SMOKE_SKETCHES): force
+	@BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder $@ compile
+
+
 %:
 	BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder $@
 
