@@ -93,6 +93,10 @@ travis-check-astyle: check-astyle
 
 SMOKE_SKETCHES=$(shell find ./examples -type f -name \*ino | xargs -n 1 dirname)
 
+
+adjust-git-timestamps:
+	bin/set-timestamps-from-git
+
 smoke-sketches: $(SMOKE_SKETCHES)
 	@echo "Smoke-tested all the sketches"
 
