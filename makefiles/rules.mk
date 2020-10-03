@@ -91,8 +91,7 @@ travis-simulator-tests: travis-install-arduino simulator-tests
 travis-check-astyle: check-astyle
 
 
-SMOKE_SKETCHES=$(shell find ./examples -type f -name \*ino | xargs -n 1 dirname)
-
+SMOKE_SKETCHES=$(shell if [ -d ./examples ]; then find ./examples -type f -name \*ino | xargs -n 1 dirname; fi)
 
 adjust-git-timestamps:
 	bin/set-timestamps-from-git
