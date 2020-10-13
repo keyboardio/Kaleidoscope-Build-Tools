@@ -21,6 +21,8 @@ astyle:
 
 test: smoke-examples check-astyle cpplint check-docs
 
+docker-simulator-tests:
+	BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" ./bin/run-docker "make simulator-tests"
 
 simulator-tests:
 	$(MAKE) -C $(BOARD_HARDWARE_PATH)/keyboardio prepare-virtual
