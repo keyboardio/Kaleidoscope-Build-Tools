@@ -40,11 +40,6 @@ shellcheck:
 		shellcheck ${SHELL_FILES}; \
 	fi
 
-find-filename-conflicts:
-	@if [ -d "bin" ]; then \
-		bin/find-filename-conflicts; \
-	fi
-
 %:
 	BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder $@
 
