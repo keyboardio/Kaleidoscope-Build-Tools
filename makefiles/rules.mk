@@ -19,10 +19,7 @@ all: build-all
 astyle:
 	PATH="$(PLUGIN_TEST_BIN_DIR):$(PATH)" $(PLUGIN_TEST_SUPPORT_DIR)/quality/run-astyle
 
-test: smoke-examples check-astyle cpplint check-docs
-
-smoke-examples:
-	$(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder compile-all
+test: check-astyle cpplint check-docs
 
 check-docs:
 	doxygen $(PLUGIN_TEST_SUPPORT_DIR)/quality/etc/check-docs.conf 2> /dev/null >/dev/null
