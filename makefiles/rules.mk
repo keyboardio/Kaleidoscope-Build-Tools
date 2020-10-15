@@ -45,21 +45,6 @@ find-filename-conflicts:
 		bin/find-filename-conflicts; \
 	fi
 
-SMOKE_SKETCHES=$(shell if [ -d ./examples ]; then find ./examples -type f -name \*ino | xargs -n 1 dirname; fi)
-
-adjust-git-timestamps:
-	bin/set-timestamps-from-git
-
-smoke-sketches: $(SMOKE_SKETCHES)
-	@echo "Smoke-tested all the sketches"
-
-.PHONY: force
-
-
-$(SMOKE_SKETCHES): force
-	@BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder $@ compile
-
-
 %:
 	BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder $@
 
