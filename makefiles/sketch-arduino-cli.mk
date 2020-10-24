@@ -6,6 +6,8 @@ all:
 	@echo "Make all target doesn't do anything"
 	@: ## Do not remove this line, otherwise `make all` will trigger the `%` rule too.
 
+decompile: disassemble
+	@: ## Do not remove this line, otherwise `make all` will trigger the `%` rule too.
 
 build: compile
 	@: ## Do not remove this line, otherwise `make all` will trigger the `%` rule too.
