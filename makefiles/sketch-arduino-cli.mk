@@ -6,6 +6,10 @@ all:
 	@echo "Make all target doesn't do anything"
 	@: ## Do not remove this line, otherwise `make all` will trigger the `%` rule too.
 
+
+build: compile
+	@: ## Do not remove this line, otherwise `make all` will trigger the `%` rule too.
+
 %:
 	BOARD_HARDWARE_PATH="$(BOARD_HARDWARE_PATH)" $(KALEIDOSCOPE_BUILDER_DIR)/kaleidoscope-builder $@
 
