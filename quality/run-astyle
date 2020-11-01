@@ -2,4 +2,4 @@
 
 ASTYLE_FILE_PATTERN='\(\.h\|\.cpp\|\.ino\)$'
 ASTYLE_IGNORE_PATTERN='\(^testing/googletest/\)'
-git ls-files |grep "$ASTYLE_FILE_PATTERN" | grep -v "$ASTYLE_IGNORE_PATTERN" | xargs -n 1 astyle -q --style=google --unpad-paren --pad-header --pad-oper --indent-classes --indent=spaces=2
+git ls-files |grep "$ASTYLE_FILE_PATTERN" | grep -v "$ASTYLE_IGNORE_PATTERN" | xargs -n 1 astyle -q --style=google --unpad-paren --pad-header --pad-oper --indent-classes --indent=spaces=2 --max-continuation-indent=80
